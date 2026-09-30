@@ -23,7 +23,7 @@ public class CameraZoom : MonoBehaviour
     void Update()
     {
         float m_scrollDelta = _inputs.Player.zoom.ReadValue<Vector2>().y;
-        _camera.orthographicSize = Mathf.RoundToInt(m_scrollDelta * Sensitivity + _camera.orthographicSize);
+        _camera.orthographicSize = Mathf.RoundToInt(_camera.orthographicSize - m_scrollDelta * Sensitivity);
         _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, ZoomBounds.x, ZoomBounds.y);
     }
 }

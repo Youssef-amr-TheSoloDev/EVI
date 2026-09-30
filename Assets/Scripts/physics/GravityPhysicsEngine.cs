@@ -9,7 +9,7 @@ public class GravityPhysicsEngine : MonoBehaviour
     public static GravityPhysicsEngine Instance { get; private set; }
 
     [SerializeField] private Rigidbody2D Player;
-    [SerializeField] private float G = 0.001f, simTick = 0.4f, EffectDistance = 0.2f;
+    [SerializeField] private float G = 0.001f, EffectDistance = 0.2f;
 
     private GameObject[] Planets;
     private GameObject _sun;
@@ -26,29 +26,21 @@ public class GravityPhysicsEngine : MonoBehaviour
         print("there is more then 1 Physics managers");
     }
 
-    void Start()
+    void Update()
     {
-        StartCoroutine(CalculateGravityToPlayer());
+        ApplyGravityToPlayer(GetGravityForcesInWorld(Player));
     }
 
-    // the gravity calculation will be following the simple (G * m1 * m2/r²) newton gravity equation
-    private IEnumerator CalculateGravityToPlayer()
-    {
-        ApplyGravityToPlayer(GetGravityForcesInWorld(Player.position, Player));
-
-        yield return new WaitForSeconds(simTick);
-        StartCoroutine(CalculateGravityToPlayer());
-    }
-
-    public Vector2 GetGravityForcesInWorld(Vector2 _currentPosition, Rigidbody2D playerRb)
+    public Vector2 GetGravityForcesInWorld(Rigidbody2D playerRb)
     {
         Vector2 m_forces = new();
         for (int m_planetIdx = 0; m_planetIdx < Planets.Length; m_planetIdx++)
         {
-            // is not in the SOI of the body don't apply it gravity
-            if (Vector2.Distance(Planets[m_planetIdx].transform.position, _currentPosition) >= EffectDistance * Planets[m_planetIdx].GetComponent<Rigidbody2D>().mass)
+            // if ship isn't in the SOI of the planet, don't apply it's gravity
+            if (Vector2.Distance(Planets[m_planetIdx].transform.position, playerRb.position) > EffectDistance * Planets[m_planetIdx].GetComponent<Rigidbody2D>().mass)
                 continue;
 
+            print(Planets[m_planetIdx].name);
             // calculate the force in the direction of the current planet
             m_forces += GetGravityForceWithABody(Planets[m_planetIdx].GetComponent<Rigidbody2D>(), playerRb);
         }
@@ -70,21 +62,21 @@ public class GravityPhysicsEngine : MonoBehaviour
 
     public Vector2 GetGravityForcesOnPlayer()
     {
-        return GetGravityForcesInWorld(Player.position, Player);
+        return GetGravityForcesInWorld(Player);
     }
 
     public Vector2 GetGravityForcesUsingPlayerMass(Vector2 _currentPos)
     {
-        return GetGravityForcesInWorld(_currentPos, Player);
+        return GetGravityForcesInWorld(Player);
     }
     public Vector2 GetGravityForcesDirectionVector()
     {
-        return GetGravityForcesInWorld(Player.position, Player).normalized;
+        return GetGravityForcesInWorld(Player).normalized;
     }
 
     public float GetGravityForcesMag()
     {
-        return GetGravityForcesInWorld(Player.position, Player).magnitude;
+        return GetGravityForcesInWorld(Player).magnitude;
     }
 
     public float GetGravityForcesAngles()

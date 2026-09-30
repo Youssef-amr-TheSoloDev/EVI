@@ -26,7 +26,7 @@ public class PlanetOrbiter : MonoBehaviour
             Mathf.Cos(OrbitAngle),
             Mathf.Sin(OrbitAngle),
             0f
-        ) * Vector2.Distance(MainBodyToOrbit.position, transform.position); ;
+        ) * Vector2.Distance(MainBodyToOrbit.position, transform.position) + MainBodyToOrbit.position;
     }
 
     [ContextMenu("Set random Orbit Position")]
