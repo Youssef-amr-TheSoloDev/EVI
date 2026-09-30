@@ -84,6 +84,11 @@ public class GravityPhysicsEngine : MonoBehaviour
         return Vector2.SignedAngle(Vector2.right, GetGravityForcesDirectionVector());
     }
 
+    public float GetPlayerMass()
+    {
+        return Player.mass;
+    }
+
     private void ApplyGravityToPlayer(Vector2 m_SumOfGravityForces)
     {
         Player.AddForce(Time.deltaTime * m_SumOfGravityForces, ForceMode2D.Force);
