@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class MapController : MonoBehaviour, IDragHandler, IPointerClickHandler
 {
@@ -9,6 +10,7 @@ public class MapController : MonoBehaviour, IDragHandler, IPointerClickHandler
     [SerializeField] private Material MapMat;
     [SerializeField] private PlanetNavigation navigation;
     private Vector2 _MaterialOffset;
+    private GameObject _objectUnderMouse;
     public void OnDrag(PointerEventData eventData)
     {
         navigation.StopAllMovements();
@@ -21,5 +23,29 @@ public class MapController : MonoBehaviour, IDragHandler, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
 
+    }
+
+    void Update()
+    {
+        Vector2 mouseScreenPos = Mouse.current.position.value;
+        Vector3 mouseWorldPos = MapCamera.ScreenToWorldPoint(
+            new Vector3(
+                mouseScreenPos.x,
+                mouseScreenPos.y,
+                -MapCamera.transform.position.z
+            )
+        );
+
+        RaycastHit2D hit = Physics2D.CircleCast(
+            mouseWorldPos,
+            1f,
+            Vector2.right
+        );
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.CompareTag("Planet"))
+                _objectUnderMouse = hit.collider.gameObject;
+        }
     }
 }

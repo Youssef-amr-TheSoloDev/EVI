@@ -40,7 +40,6 @@ public class GravityPhysicsEngine : MonoBehaviour
             if (Vector2.Distance(Planets[m_planetIdx].transform.position, playerRb.position) > EffectDistance * Planets[m_planetIdx].GetComponent<Rigidbody2D>().mass)
                 continue;
 
-            print(Planets[m_planetIdx].name);
             // calculate the force in the direction of the current planet
             m_forces += GetGravityForceWithABody(Planets[m_planetIdx].GetComponent<Rigidbody2D>(), playerRb);
         }
