@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 3
   tags:
   - Planet
+  - atmospheric
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - orbits
   - Water
   - UI
   - 

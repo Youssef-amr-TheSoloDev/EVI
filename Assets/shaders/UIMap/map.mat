@@ -54,7 +54,7 @@ Material:
     - _StencilWriteMask: 255
     - _UIMaskSoftnessX: 1
     - _UIMaskSoftnessY: 1
-    - _aspict: 1.613636
+    - _aspict: 1.6136364
     - _grid_line_width: 0.941
     - _offset: 1.4
     m_Colors:

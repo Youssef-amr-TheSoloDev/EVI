@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
-using System;
 using System.Linq;
 
 public class GravityPhysicsEngine : MonoBehaviour
@@ -26,37 +23,72 @@ public class GravityPhysicsEngine : MonoBehaviour
         print("there is more then 1 Physics managers");
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        if (Player == null) return;
+        // Null-safe: CircleCast returns no collider in deep space.
+        RaycastHit2D m_hit = Physics2D.CircleCast(Player.position, 0.2f, Vector2.zero);
+        if (m_hit.collider != null && m_hit.collider.CompareTag("Planet"))
+            return;
         ApplyGravityToPlayer(GetGravityForcesInWorld(Player));
     }
 
-    public Vector2 GetGravityForcesInWorld(Rigidbody2D playerRb)
+    public Vector2 GetGameplayGravityAccelerationAtPosition(Vector2 simPos)
     {
+        float m_mass = GetPlayerMass();
+        if (m_mass <= 0f) return Vector2.zero;
+        return GetGravityForceAtPosition(simPos, m_mass) / m_mass * Time.fixedDeltaTime;
+    }
+
+    public Vector2 GetGravityForceAtPosition(Vector2 position, float mass)
+    {
+        if (Planets == null) return Vector2.zero;
         Vector2 m_forces = new();
         for (int m_planetIdx = 0; m_planetIdx < Planets.Length; m_planetIdx++)
         {
-            // if ship isn't in the SOI of the planet, don't apply it's gravity
-            if (Vector2.Distance(Planets[m_planetIdx].transform.position, playerRb.position) > EffectDistance * Planets[m_planetIdx].GetComponent<Rigidbody2D>().mass)
+            GameObject m_planet = Planets[m_planetIdx];
+            if (m_planet == null) continue;
+            Rigidbody2D m_planetRb = m_planet.GetComponent<Rigidbody2D>();
+            if (m_planetRb == null) continue;
+
+            // if ship isn't in the SOI of the planet, don't apply its gravity
+            if (Vector2.Distance(m_planet.transform.position, position) > EffectDistance * m_planetRb.mass)
                 continue;
 
-            // calculate the force in the direction of the current planet
-            m_forces += GetGravityForceWithABody(Planets[m_planetIdx].GetComponent<Rigidbody2D>(), playerRb);
+            m_forces += GetGravityForceBetween(m_planetRb, position, mass);
         }
 
         if (m_forces == Vector2.zero)
         {
-            // if not in the SOI of any planet apply sun gravity
-            // 0 idx is the sun
-            return GetGravityForceWithABody(_sun.GetComponent<Rigidbody2D>(), Player);
+            // if not in the SOI of any planet apply sun gravity (infinite range fallback)
+            if (_sun != null)
+            {
+                Rigidbody2D m_sunRb = _sun.GetComponent<Rigidbody2D>();
+                if (m_sunRb != null)
+                    return GetGravityForceBetween(m_sunRb, position, mass);
+            }
         }
 
         return m_forces;
     }
 
+    private Vector2 GetGravityForceBetween(Rigidbody2D planetRb, Vector2 shipPos, float shipMass)
+    {
+        Vector2 m_planetPos = planetRb.transform.position;
+        float m_dist = Vector2.Distance(m_planetPos, shipPos);
+        if (m_dist < 0.001f) return Vector2.zero;
+        Vector2 m_dir = (m_planetPos - shipPos) / m_dist;
+        return G * shipMass * planetRb.mass / (m_dist * m_dist) * m_dir;
+    }
+
+    public Vector2 GetGravityForcesInWorld(Rigidbody2D playerRb)
+    {
+        return GetGravityForceAtPosition(playerRb.position, playerRb.mass);
+    }
+
     private Vector2 GetGravityForceWithABody(Rigidbody2D body1, Rigidbody2D body2)
     {
-        return G * body2.mass * body1.mass * Mathf.Pow(Vector2.Distance(body1.transform.position, body2.position), 2f) * (body1.position - body2.position).normalized;
+        return G * body2.mass * body1.mass / Mathf.Pow(Vector2.Distance(body1.transform.position, body2.position), 2f) * (body1.position - body2.position).normalized;
     }
 
     public Vector2 GetGravityForcesOnPlayer()
@@ -95,6 +127,12 @@ public class GravityPhysicsEngine : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        if (Player && _sun)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(Player.position, GetGravityForcesInWorld(Player) + Player.position);
+        }
+
         Gizmos.color = Color.green;
         if (Planets == null) return;
 

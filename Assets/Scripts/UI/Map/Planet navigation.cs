@@ -13,7 +13,7 @@ public class PlanetNavigation : MonoBehaviour
         set
         {
             _mapState = value;
-            if (!_mapState)
+            if (_mapState)
                 Animation.EntranceAnimation();
             else
                 Animation.ExitAnimation();
@@ -32,6 +32,7 @@ public class PlanetNavigation : MonoBehaviour
     void Start()
     {
         _t = transform;
+        _MapState = false;
         _inputs.Player.Map.performed += _ => _MapState = !_MapState;
     }
 
