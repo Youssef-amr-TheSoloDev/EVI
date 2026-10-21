@@ -69,18 +69,6 @@ EVI/
 ├── ProjectSettings/  # Unity project settings
 └── README.md         # This file
 ```
-
----
-
-## ⚖️ License
-
-**No license – All rights reserved.**
-
-This project is shared for **viewing and portfolio purposes only**.  
-You may not copy, modify, distribute, or use any part of this game or its assets without explicit written permission from the author.
-
-> 👤 **Author:** Youssef Amr – *The Solo Dev*
-
 ---
 
 ## 🙏 Credits
@@ -97,3 +85,14 @@ You may not copy, modify, distribute, or use any part of this game or its assets
 
 The game is hidden inside the **contact page** of my portfolio.  
 Find Evi. She’ll ask if you want to play.
+
+---
+
+## ⚖️ License
+
+**No license – All rights reserved.**
+
+This project is shared for **viewing and portfolio purposes only**.  
+You may not copy, modify, distribute, or use any part of this game or its assets without explicit written permission from the author.
+
+> 👤 **Author:** Youssef Amr – *The Solo Dev*
