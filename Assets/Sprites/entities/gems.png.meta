@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: 10d5f4ce9e58d79458b6e44c493c2925
+guid: 93406fcfe95e3ee4f9a8fef617b47d7f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8503463978422810531
-    second: ship flames_0
+      213: -16793423984005362
+    second: gems_0
+  - first:
+      213: -4672790576089934573
+    second: gems_1
+  - first:
+      213: 3598714856469743548
+    second: gems_2
+  - first:
+      213: -2511356291957038328
+    second: gems_3
+  - first:
+      213: -7335531085601356040
+    second: gems_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,12 +58,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -126,13 +138,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ship flames_0
+      name: gems_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 6
-        width: 116
-        height: 116
+        x: 10
+        y: 9
+        width: 12
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +153,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d5847cd9090adf980800000000000000
-      internalID: -8503463978422810531
+      spriteID: e0feed8487654cff0800000000000000
+      internalID: -16793423984005362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gems_1
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 9
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 315dd528ab9e62fb0800000000000000
+      internalID: -4672790576089934573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gems_2
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 9
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb7cccb581431f130800000000000000
+      internalID: 3598714856469743548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gems_3
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 11
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 803657912ced52dd0800000000000000
+      internalID: -2511356291957038328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gems_4
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 9
+        width: 10
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f645ebc755f23a90800000000000000
+      internalID: -7335531085601356040
       vertices: []
       indices: 
       edges: []
@@ -151,7 +251,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +261,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ship flames_0: -8503463978422810531
+      gems_0: -16793423984005362
+      gems_1: -4672790576089934573
+      gems_2: 3598714856469743548
+      gems_3: -2511356291957038328
+      gems_4: -7335531085601356040
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

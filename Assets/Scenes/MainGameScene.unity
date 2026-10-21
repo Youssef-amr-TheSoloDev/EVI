@@ -1812,7 +1812,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Follow
   Target: {fileID: 1760674136}
   Offset: {x: 0, y: 0, z: -10}
-  Speed: 10
+  Speed: 100
   Weight: 1
 --- !u!114 &519420035
 MonoBehaviour:
@@ -3139,7 +3139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8f57b9d553476429cb1dbc34561c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DrawTrajectoryPredictionLine
-  SimTimeAhead: 3
+  SimTimeAhead: 15
   NumOfIndicators: 20
   IndicatorPrefab: {fileID: 7380967890849001244, guid: 2476fb8e20c62614793b6c2f8267f559, type: 3}
   _rb: {fileID: 1760674133}
@@ -3875,8 +3875,8 @@ RectTransform:
   m_GameObject: {fileID: 1001114905}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1838898762}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3905,7 +3905,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4a94629e7b2386947a0cca64d420dbcf, type: 3}
+  m_Sprite: {fileID: -2311659948842064771, guid: 09e87f79a46a39a4daaa2484d67913f3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6793,7 +6793,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1567158433}
   - component: {fileID: 1567158436}
-  - component: {fileID: 1567158435}
   - component: {fileID: 1567158434}
   - component: {fileID: 1567158437}
   m_Layer: 0
@@ -6862,14 +6861,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &1567158435
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1567158432}
-  m_Enabled: 1
 --- !u!20 &1567158436
 Camera:
   m_ObjectHideFlags: 0
@@ -8113,9 +8104,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1760674136}
   - component: {fileID: 1760674135}
-  - component: {fileID: 1760674134}
   - component: {fileID: 1760674133}
   - component: {fileID: 1760674137}
+  - component: {fileID: 1760674138}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Player
@@ -8150,43 +8141,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!70 &1760674134
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1760674132}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: -0.04122311, y: 0.070326746}
-  m_Size: {x: 0.5032964, y: 1.3015016}
-  m_Direction: 0
 --- !u!212 &1760674135
 SpriteRenderer:
   serializedVersion: 2
@@ -8236,7 +8190,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 4a94629e7b2386947a0cca64d420dbcf, type: 3}
+  m_Sprite: {fileID: -2311659948842064771, guid: 09e87f79a46a39a4daaa2484d67913f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8279,6 +8233,42 @@ MonoBehaviour:
   ShipFuelConsumption: 1
   FuelTankSize: 1000
   EngineFlames: {fileID: 1973760689}
+--- !u!58 &1760674138
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760674132}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.115324885}
+  m_Radius: 0.38467512
 --- !u!1 &1783006591
 GameObject:
   m_ObjectHideFlags: 0
@@ -9080,7 +9070,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1973760686}
   serializedVersion: 8
-  lengthInSec: 5.6
+  lengthInSec: 4.85
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -9145,7 +9135,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 1
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -9155,7 +9145,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.24
+      scalar: 0.2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -9208,7 +9198,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 0.57
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -9326,7 +9316,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.05
+      scalar: 0.03
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -9709,7 +9699,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0, z: 0}
+    m_Position: {x: 0.009929657, y: -0.018944725, z: 0.0000000011291932}
     m_Rotation: {x: 90, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
@@ -9909,7 +9899,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 500
+      scalar: 200
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -10347,7 +10337,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.5896226, b: 0.6024469, a: 1}
+        key0: {r: 0.5882353, g: 0.7189327, b: 1, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 0}
         key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 1, g: 1, b: 1, a: 0}
@@ -11011,7 +11001,7 @@ ParticleSystem:
     radial:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -1
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -13986,8 +13976,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ffeee45352e4843b7e1df525780522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIAutoAnimation
-  animationEntrancePresets: {fileID: 11400000, guid: 71eff5cb7a7583d40bacd4a31c7930f9, type: 2}
-  animationExitPresets: {fileID: 11400000, guid: 71eff5cb7a7583d40bacd4a31c7930f9, type: 2}
+  animationEntrancePresets: {fileID: 11400000, guid: 0f6eb9ad1f89b56488ebd48acdfc8aee, type: 2}
+  animationExitPresets: {fileID: 11400000, guid: 0f6eb9ad1f89b56488ebd48acdfc8aee, type: 2}
 --- !u!1 &2047827815
 GameObject:
   m_ObjectHideFlags: 0

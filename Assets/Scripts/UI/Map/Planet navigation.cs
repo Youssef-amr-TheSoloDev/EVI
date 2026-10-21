@@ -1,39 +1,51 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
+using System;
 
 public class PlanetNavigation : MonoBehaviour
 {
     [SerializeField] private GameObject[] Planets;
+    [SerializeField] private Camera MapCamera;
     [SerializeField] private float TransitionSpeed = 2f, DistanceToStop = 0.1f;
-    [SerializeField] private UIAutoAnimation Animation;
+    private const string PLANET_TAG = "Planets";
     private Transform _t;
-    private bool _MapState
-    {
-        get => _mapState;
-        set
-        {
-            _mapState = value;
-            if (_mapState)
-                Animation.EntranceAnimation();
-            else
-                Animation.ExitAnimation();
-        }
-    }
-
-    private bool _mapState;
-
-    #region InputSystem
-    private NewInputSystem _inputs;
-    void Awake() => _inputs = new();
-    void OnEnable() => _inputs.Enable();
-    void OnDisable() => _inputs.Disable();
-    #endregion
+    private GameObject _objectUnderMouse;
 
     void Start()
     {
         _t = transform;
-        _MapState = false;
-        _inputs.Player.Map.performed += _ => _MapState = !_MapState;
+    }
+
+    void Update()
+    {
+        _objectUnderMouse = GetObjectUnderMouse(PLANET_TAG);
+    }
+
+    private GameObject GetObjectUnderMouse(string TAG)
+    {
+        Vector2 mouseScreenPos = Mouse.current.position.value;
+        Vector3 mouseWorldPos = MapCamera.ScreenToWorldPoint(
+            new Vector3(
+                mouseScreenPos.x,
+                mouseScreenPos.y,
+                -MapCamera.transform.position.z
+            )
+        );
+
+        RaycastHit2D hit = Physics2D.CircleCast(
+            mouseWorldPos,
+            1f,
+            Vector2.right
+        );
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.CompareTag(TAG))
+                return hit.collider.gameObject;
+        }
+
+        return null;
     }
 
     public void StopAllMovements()

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
+
 
 public class MapController : MonoBehaviour, IDragHandler, IPointerClickHandler
 {
@@ -8,9 +8,39 @@ public class MapController : MonoBehaviour, IDragHandler, IPointerClickHandler
     [SerializeField] private Transform MapCameraTransform;
     [SerializeField] private float DeltaSpeed = 2f, DeltaSensitivity = 2f;
     [SerializeField] private Material MapMat;
+    [SerializeField] private UIAutoAnimation Animation;
     [SerializeField] private PlanetNavigation navigation;
     private Vector2 _MaterialOffset;
-    private GameObject _objectUnderMouse;
+
+    #region InputSystem
+    private NewInputSystem _inputs;
+    void Awake() => _inputs = new();
+    void OnEnable() => _inputs.Enable();
+    void OnDisable() => _inputs.Disable();
+    #endregion
+
+    private bool _MapState
+    {
+        get => _mapState;
+        set
+        {
+            _mapState = value;
+            if (_mapState)
+                Animation.EntranceAnimation();
+            else
+                Animation.ExitAnimation();
+        }
+    }
+
+    private bool _mapState;
+
+
+    void Start()
+    {
+        _MapState = false;
+        _inputs.Player.Map.performed += _ => _MapState = !_MapState;
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
         navigation.StopAllMovements();
@@ -23,29 +53,5 @@ public class MapController : MonoBehaviour, IDragHandler, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
 
-    }
-
-    void Update()
-    {
-        Vector2 mouseScreenPos = Mouse.current.position.value;
-        Vector3 mouseWorldPos = MapCamera.ScreenToWorldPoint(
-            new Vector3(
-                mouseScreenPos.x,
-                mouseScreenPos.y,
-                -MapCamera.transform.position.z
-            )
-        );
-
-        RaycastHit2D hit = Physics2D.CircleCast(
-            mouseWorldPos,
-            1f,
-            Vector2.right
-        );
-
-        if (hit.collider != null)
-        {
-            if (hit.collider.CompareTag("Planet"))
-                _objectUnderMouse = hit.collider.gameObject;
-        }
     }
 }
