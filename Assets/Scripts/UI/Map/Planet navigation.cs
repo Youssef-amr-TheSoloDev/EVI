@@ -12,19 +12,32 @@ public class PlanetNavigation : MonoBehaviour
     private Transform _t;
     private GameObject _objectUnderMouse;
 
+
     void Start()
     {
         _t = transform;
+        InputManager.Instance.Input.Player.MouseLeftClick.performed += SelectPlanet;
+    }
+
+    void OnDisable()
+    {
+        InputManager.Instance.Input.Player.MouseLeftClick.performed -= SelectPlanet;
+    }
+
+    private void SelectPlanet(InputAction.CallbackContext context)
+    {
+        GameEventBus.Instance.OnPlanetSelect?.Invoke(_objectUnderMouse);
     }
 
     void Update()
     {
         _objectUnderMouse = GetObjectUnderMouse(PLANET_TAG);
+        GameEventBus.Instance.OnPlanetHaver?.Invoke(_objectUnderMouse);
     }
 
     private GameObject GetObjectUnderMouse(string TAG)
     {
-        Vector2 mouseScreenPos = Mouse.current.position.value;
+        Vector2 mouseScreenPos = InputManager.Instance.CurrentMouse.position.value;
         Vector3 mouseWorldPos = MapCamera.ScreenToWorldPoint(
             new Vector3(
                 mouseScreenPos.x,

@@ -11,13 +11,6 @@ public class ShipMovement : MonoBehaviour
 
     public Action OnFuelRefill;
 
-    #region InputSystem
-    private NewInputSystem _inputs;
-    void Awake() => _inputs = new();
-    void OnEnable() => _inputs.Enable();
-    void OnDisable() => _inputs.Disable();
-    #endregion
-
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -31,12 +24,12 @@ public class ShipMovement : MonoBehaviour
 
     void Update()
     {
-        float m_enginePowerInput = _inputs.Player.enginePower?.ReadValue<float>() ?? 0f;
+        float m_enginePowerInput = InputManager.Instance.Input?.Player.enginePower?.ReadValue<float>() ?? 0f;
         ChangeShipSpeed(m_enginePowerInput * 0.1f);
 
-        if (_inputs.Player.Move.IsInProgress())
+        if (InputManager.Instance.Input.Player.Move.IsInProgress())
         {
-            Vector2 m_movementVector = _inputs.Player.Move.ReadValue<Vector2>();
+            Vector2 m_movementVector = InputManager.Instance.Input.Player.Move.ReadValue<Vector2>();
             MoveShip(m_movementVector);
             RotateShip(m_movementVector.normalized);
             ConsumeFuel(ShipFuelConsumption);

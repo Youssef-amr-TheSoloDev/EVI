@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-public class MapController : MonoBehaviour, IDragHandler, IPointerClickHandler
+public class MapController : MonoBehaviour, IDragHandler
 {
     [SerializeField] private Camera MapCamera;
     [SerializeField] private Transform MapCameraTransform;
@@ -11,13 +11,6 @@ public class MapController : MonoBehaviour, IDragHandler, IPointerClickHandler
     [SerializeField] private UIAutoAnimation Animation;
     [SerializeField] private PlanetNavigation navigation;
     private Vector2 _MaterialOffset;
-
-    #region InputSystem
-    private NewInputSystem _inputs;
-    void Awake() => _inputs = new();
-    void OnEnable() => _inputs.Enable();
-    void OnDisable() => _inputs.Disable();
-    #endregion
 
     private bool _MapState
     {
@@ -38,7 +31,17 @@ public class MapController : MonoBehaviour, IDragHandler, IPointerClickHandler
     void Start()
     {
         _MapState = false;
-        _inputs.Player.Map.performed += _ => _MapState = !_MapState;
+        InputManager.Instance.Input.Player.Map.performed += ToggleMap;
+    }
+
+    void OnDisable()
+    {
+        InputManager.Instance.Input.Player.Map.performed -= ToggleMap;
+    }
+
+    private void ToggleMap(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        _MapState = !_MapState;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -48,10 +51,5 @@ public class MapController : MonoBehaviour, IDragHandler, IPointerClickHandler
 
         _MaterialOffset -= eventData.delta * (DeltaSensitivity + (MapCamera.orthographicSize / 20));
         MapMat.SetVector("offset", _MaterialOffset);
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-
     }
 }
