@@ -44,7 +44,7 @@ Material:
     - _star_density: 0.979
     - _star_step: 0.945
     m_Colors:
-    - _Background: {r: 0.05139728, g: 0.05737469, b: 0.066037714, a: 1}
+    - _Background: {r: 0.051397257, g: 0.05737467, b: 0.06603769, a: 1}
     - _dust_cloud_color: {r: 0, g: 0.011778565, b: 0.042452842, a: 1}
     - _stars: {r: 0.77874684, g: 0.8604237, b: 0.9433962, a: 1}
   m_BuildTextureStacks: []

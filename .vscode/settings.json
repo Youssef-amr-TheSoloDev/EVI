@@ -68,5 +68,5 @@
     "*.slnx": "*.csproj"
   },
   "dotnet.defaultSolution": "EVI.slnx",
-  "cSpell.words": ["atmo", "Behaviour", "Lerp", "Mathf", "Rigidbody"]
+  "cSpell.words": ["atmo", "Behaviour", "Gadge", "Lerp", "Mathf", "Rigidbody"]
 }
