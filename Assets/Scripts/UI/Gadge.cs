@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-
+[RequireComponent(typeof(HorizontalLayoutGroup), typeof(RectTransform))]
 public class Gadge : MonoBehaviour
 {
     [SerializeField] private int currentValue, maxValue;
-    [SerializeField, Tooltip("3 full, 3 empty")] private List<Sprite> sprites;
+    [SerializeField, Tooltip("full -> empty")] private List<Sprite> sprites;
     [SerializeField] private Vector2 spriteSize = new(32, 32);
+    [SerializeField] private float spritesSpacing = -5f;
     [SerializeField] private Color SpriteColor;
     public UnityAction<int> ChangeToValue;
     [SerializeField] private UnityEvent<int> OnChange;
@@ -17,6 +18,8 @@ public class Gadge : MonoBehaviour
     private RectTransform _t;
     void Start()
     {
+        currentValue = currentValue > maxValue ? maxValue : currentValue;
+
         SpawnGadge();
 
         OnChange.AddListener(UpdateGadge);
@@ -37,23 +40,39 @@ public class Gadge : MonoBehaviour
         // set meter size
         SetMeterSize();
 
-        // create start
-        Instantiate(CreateImage(sprites[0], SpriteColor, spriteSize), transform);
+        // create world object
+        GameObject m_imageObject = new("ceil", new Type[]
+        {
+            typeof(RectTransform),
+            typeof(CanvasRenderer),
+            typeof(Image)
+        });
 
-        // create middle
+        // add start ceil
+        Instantiate(SetupImage(m_imageObject, sprites[0], SpriteColor, spriteSize), transform);
+
+        // add middle ceils
         for (int idx = 0; idx < maxValue - 2; idx++)
         {
-            Instantiate(CreateImage(sprites[1], SpriteColor, spriteSize), transform);
+            Instantiate(SetupImage(m_imageObject, sprites[0], SpriteColor, spriteSize), transform);
         }
 
-        // create start
-        Instantiate(CreateImage(sprites[2], SpriteColor, spriteSize), transform);
+        // add start ceil
+        Instantiate(SetupImage(m_imageObject, sprites[0], SpriteColor, spriteSize), transform);
+
+        // destroy world created object
+        Destroy(m_imageObject);
+
+        // update empty and full ceils
+        UpdateGadge(currentValue);
     }
 
     private void SetMeterSize()
     {
         _t = GetComponent<RectTransform>();
         _t.sizeDelta = new(spriteSize.x * maxValue, spriteSize.y);
+
+        GetComponent<HorizontalLayoutGroup>().spacing = spritesSpacing * maxValue;
     }
 
     private void UpdateGadge(int full_val)
@@ -64,8 +83,8 @@ public class Gadge : MonoBehaviour
             var m_imageIdx = sprites.IndexOf(m_image.sprite);
             if (m_imageIdx == -1) break;
 
-            if (m_imageIdx > 2)
-                m_image.sprite = sprites[m_imageIdx - 3];
+            if (m_imageIdx > (sprites.Count / 2) - 1)
+                m_image.sprite = sprites[m_imageIdx - sprites.Count / 2];
 
         }
 
@@ -75,27 +94,22 @@ public class Gadge : MonoBehaviour
             var m_imageIdx = sprites.IndexOf(m_image.sprite);
             if (m_imageIdx == -1) break;
 
-            if (m_imageIdx < 3)
-                m_image.sprite = sprites[m_imageIdx + 3];
+            if (m_imageIdx < sprites.Count / 2)
+                m_image.sprite = sprites[m_imageIdx + sprites.Count / 2];
         }
 
     }
 
-    private GameObject CreateImage(Sprite sprite, Color color, Vector2 size)
+    private GameObject SetupImage(GameObject Image, Sprite sprite, Color color, Vector2 size)
     {
-
-        var m_CreatedImage = new GameObject();
-        var m_transform = m_CreatedImage.AddComponent<RectTransform>();
+        var m_transform = Image.GetComponent<RectTransform>();
         m_transform.sizeDelta = size;
 
-        m_CreatedImage.AddComponent<CanvasRenderer>();
-
-        var m_ImageComponent = m_CreatedImage.AddComponent<Image>();
+        var m_ImageComponent = Image.GetComponent<Image>();
         m_ImageComponent.sprite = sprite;
         m_ImageComponent.color = color;
 
-        return m_CreatedImage;
-
+        return Image;
     }
 
     private int Increment(int val)
