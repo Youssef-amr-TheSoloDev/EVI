@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -5,15 +6,6 @@ using UnityEngine.UI;
 
 public class Gadge : MonoBehaviour
 {
-    // requirements
-    // have a value, max value, and can be changed from editor
-    // spawn the suited sprite to suit the start, body, and end of the meter
-    // could change color of the sprite
-    // could take an event with a value to change to it
-    // could take an increment or decrement event to change accordingly
-    // fire an onchange event with the new value
-
-
     [SerializeField] private int currentValue, maxValue;
     [SerializeField, Tooltip("3 full, 3 empty")] private List<Sprite> sprites;
     [SerializeField] private Vector2 spriteSize = new(32, 32);
@@ -25,10 +17,6 @@ public class Gadge : MonoBehaviour
     private RectTransform _t;
     void Start()
     {
-        _t = GetComponent<RectTransform>();
-        _t.sizeDelta = new(spriteSize.x * maxValue, spriteSize.y);
-
-
         SpawnGadge();
 
         OnChange.AddListener(UpdateGadge);
@@ -46,24 +34,31 @@ public class Gadge : MonoBehaviour
     [ContextMenu("spawn meter")]
     private void SpawnGadge()
     {
+        // set meter size
+        SetMeterSize();
+
         // create start
-        Instantiate(CreateImage(sprites[0], SpriteColor, spriteSize), _t);
+        Instantiate(CreateImage(sprites[0], SpriteColor, spriteSize), transform);
 
         // create middle
         for (int idx = 0; idx < maxValue - 2; idx++)
         {
-            Instantiate(CreateImage(sprites[1], SpriteColor, spriteSize), _t);
+            Instantiate(CreateImage(sprites[1], SpriteColor, spriteSize), transform);
         }
 
         // create start
-        Instantiate(CreateImage(sprites[2], SpriteColor, spriteSize), _t);
+        Instantiate(CreateImage(sprites[2], SpriteColor, spriteSize), transform);
     }
 
-    private void UpdateGadge(int _)
+    private void SetMeterSize()
     {
-        int m_fullCeils = currentValue, m_emptyCeils = maxValue - currentValue;
+        _t = GetComponent<RectTransform>();
+        _t.sizeDelta = new(spriteSize.x * maxValue, spriteSize.y);
+    }
 
-        for (int _fullIdx = 0; _fullIdx < m_fullCeils; _fullIdx++)
+    private void UpdateGadge(int full_val)
+    {
+        for (int _fullIdx = 0; _fullIdx < full_val; _fullIdx++)
         {
             var m_image = _t.GetChild(_fullIdx).GetComponent<Image>();
             var m_imageIdx = sprites.IndexOf(m_image.sprite);
@@ -74,7 +69,7 @@ public class Gadge : MonoBehaviour
 
         }
 
-        for (int _emptyIdx = m_fullCeils; _emptyIdx < m_fullCeils + m_emptyCeils; _emptyIdx++)
+        for (int _emptyIdx = full_val; _emptyIdx < maxValue; _emptyIdx++)
         {
             var m_image = _t.GetChild(_emptyIdx).GetComponent<Image>();
             var m_imageIdx = sprites.IndexOf(m_image.sprite);
@@ -105,14 +100,14 @@ public class Gadge : MonoBehaviour
 
     private int Increment(int val)
     {
-        val++;
+        val = Math.Clamp(++val, 0, maxValue);
         OnChange?.Invoke(val);
         return val;
     }
 
     private int Decrement(int val)
     {
-        val--;
+        val = Math.Clamp(--val, 0, maxValue);
         OnChange?.Invoke(val);
         return val;
     }

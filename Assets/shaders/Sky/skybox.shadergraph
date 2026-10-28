@@ -693,7 +693,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "X",
     "m_StageCapability": 3,
-    "m_Value": 2.5299999713897707,
+    "m_Value": 5.0,
     "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": false
@@ -2403,8 +2403,8 @@
     "m_ShaderOutputName": "Offset",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 0.0,
-        "y": 0.0
+        "x": -1.2000000476837159,
+        "y": 6.539999961853027
     },
     "m_DefaultValue": {
         "x": 0.0,
